@@ -8,6 +8,7 @@ const connectToDatabase = require('./seed.connect');
 connectToDatabase();
 
 const pushDataToDb = async () => {
+    await Movie.deleteMany({})
 
     //Fetch movies from external API
     const resMovies = await axios.get(process.env.MOVIES_BASE_URL + process.env.API_KEY);

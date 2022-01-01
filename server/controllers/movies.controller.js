@@ -1,36 +1,41 @@
 const Movie = require('../models/movie.model');
 
-const _ = require('lodash');
-
 //Get movies  
 const getMovies = async (req, res, next) => {
+    let {limit, skip} = req.body;
 
-    let movies;
     try {
-        movies = await Movie.find({ isMovie: true });                                       //isMovie is set to true for every movie
-
-        const unsortedMovies = movies.slice(0, 10).map(movie => {                           //Unsorted array
-            let sum = movie.rating.reduce((a, b) => a + b, 0);                              //Sum of all rates
-            return {
-                _id: movie._id,
-                title: movie.title,
-                crew: movie.crew,
-                year: movie.year,
-                image: movie.image,
-                rating: movie.rating,
-                isMovie: movie.isMovie,
-                ratingValue: parseFloat((sum / movie.rating.length).toFixed(1))             //Average of all rates
+        Movie.aggregate([
+            {
+                "$addFields": {
+                    "rating_avg": { "$avg": "$rating" }                                     //Add field rating_avg - calculate average rate
+                }
+            },
+            { "$sort": { "rating_avg": -1 } },                                              //Sort by rating_avg desc
+            { "$skip": skip },
+            { "$limit": limit }                                                             //Limit to 10 movies per request
+        ], function (err, movies) {
+            if (err) { console.log(err) }
+            else {
+                return res.status(200).json({
+                    movies: movies.map(movie => {
+                        let sum = movie.rating.reduce((a, b) => a + b, 0);                  //Sum of all rates
+                        let ratingValue = parseInt(sum / movie.rating.length);              //Average of all rates                   
+                        return {
+                            _id: movie._id,
+                            title: movie.title,
+                            crew: movie.crew,
+                            year: movie.year,
+                            image: movie.image,
+                            rating: movie.rating,
+                            isMovie: movie.isMovie,
+                            ratingValue: ratingValue,
+                        }
+                    })
+                })
             }
         })
 
-        const sortedMovies = unsortedMovies.sort(function (a, b) {                          //Sorted response
-            return b.ratingValue - a.ratingValue
-        })
-
-        return res.status(200).json({
-            movies: sortedMovies
-
-        })
     } catch (err) {
         const error = new Error(
             'Fetching movies failed', 500

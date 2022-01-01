@@ -11,7 +11,7 @@ const moviesReducer = (state = initialState, action) => {
         case GET_MOVIES:
             return {
                 ...state,
-                movies: action.payload
+                movies: [...state.movies, ...action.payload]
             };
             case IS_MOVIES_SHOWED:
             return {

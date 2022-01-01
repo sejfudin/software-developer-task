@@ -3,9 +3,10 @@ import { getShows } from './showsActions';
 import { GET_MOVIES, IS_MOVIES_SHOWED, RATE_MOVIE } from "./types";
 
 //Get movies
-export const getMovies = () => async dispatch => {
-    const res = await axios.get('http://localhost:5000/api/movies');
+export const getMovies = (data) => async dispatch => {
+    const res = await axios.post('http://localhost:5000/api/movies', data);
     const movies = res.data.movies
+    console.log(movies)
     dispatch({
         type: GET_MOVIES,
         payload: movies
