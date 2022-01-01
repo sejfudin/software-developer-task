@@ -1,7 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMovies } from '../redux/actions/moviesActions';
+import { getShows } from '../redux/actions/showsActions';
 
-const Home = ()=>{
+import Movie from './Movie';
+
+const Home = () => {
+
+    const dispatch = useDispatch();
+    const movies = useSelector(state => state.movies.movies);
+    const shows = useSelector(state => state.shows.shows);
+    const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
+
+    const [toShow, setToShow] = useState(movies);
+
+
+    useEffect(() => {
+        dispatch(getMovies());
+        dispatch(getShows());
+    }, [dispatch])
+
+    useEffect(() => {
+        isMoviesShowed ? setToShow(movies) : setToShow(shows);
+    }, [isMoviesShowed, movies, shows])
     return (
-        <div>Home komponenta</div>
+        <div className='container'>
+            <div className="row">
+
+                {toShow?.map(movie => {
+                    return <div className="col-sm-6 col-md-4 col-lg-3" key={movie._id}><Movie movie={movie} /></div>
+                })}
+            </div>
+        </div>
     )
 }
+export default Home;

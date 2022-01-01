@@ -1,25 +1,25 @@
 import React from 'react';
+
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
-import axios from 'axios';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import Home from './components/Home';
+import Search from './components/Search';
+import Header from './components/Header';
+import Toggle from './components/Toggle';
 
 const App = () => {
-
-  const movies =async ()=>{
-   const res= await axios.get(`https://imdb-api.com/en/API/Top250Movies/k_vxjqgq7w`); 
-   let results= res.data.items
-  
-    console.log(results)
-
-
-
-  
-  } 
-movies()
   return (
     <Provider store={store}>
-<div>My app</div>
+ <BrowserRouter>
+ <Header />
+ <Toggle />
+        <Switch>
+          <Route exact path='/' component={Home} />
+        
+        </Switch>
+      </BrowserRouter>
     </Provider>
   );
 }
