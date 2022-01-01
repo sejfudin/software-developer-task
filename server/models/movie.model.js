@@ -18,7 +18,12 @@ const movieSchema = new Schema({
     },
     isMovie: {
         type: Boolean
-    }
+    },
+    //  ratedBy: [{
+    //     type: mongoose.Types.ObjectId,
+    //     ref: 'User'
+    // }],
+    rating: []
 })
 
 module.exports = mongoose.model('Movie', movieSchema);
