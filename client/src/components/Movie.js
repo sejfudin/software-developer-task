@@ -22,7 +22,7 @@ const Movie = ({ movie }) => {
                 <RateStars
                     size={30}
                     isHalf={true}
-                    // value={recipe.ratingValue}
+                    value={movie.ratingValue}
                     edit={true}
                     onChange={setRating} />
             </div>
