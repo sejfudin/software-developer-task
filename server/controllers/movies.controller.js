@@ -1,5 +1,7 @@
 const Movie = require('../models/movie.model');
 
+const _ = require('lodash');
+
 //Get movies  
 const getMovies = async (req, res, next) => {
 
@@ -7,20 +9,26 @@ const getMovies = async (req, res, next) => {
     try {
         movies = await Movie.find({ isMovie: true });                                       //isMovie is set to true for every movie
 
+        const unsortedMovies = movies.slice(0, 10).map(movie => {                           //Unsorted array
+            let sum = movie.rating.reduce((a, b) => a + b, 0);                              //Sum of all rates
+            return {
+                _id: movie._id,
+                title: movie.title,
+                crew: movie.crew,
+                year: movie.year,
+                image: movie.image,
+                rating: movie.rating,
+                isMovie: movie.isMovie,
+                ratingValue: parseFloat((sum / movie.rating.length).toFixed(1))             //Average of all rates
+            }
+        })
+
+        const sortedMovies = unsortedMovies.sort(function (a, b) {                          //Sorted response
+            return b.ratingValue - a.ratingValue
+        })
+
         return res.status(200).json({
-            movies: movies.slice(0, 10).map(movie => {
-                let sum = movie.rating.reduce((a, b) => a + b, 0);                          //Sum of all rates
-                return {
-                    _id: movie._id,
-                    title: movie.title,
-                    crew: movie.crew,
-                    year: movie.year,
-                    image: movie.image,
-                    rating: movie.rating,
-                    isMovie: movie.isMovie,
-                    ratingValue: parseFloat((sum / movie.rating.length).toFixed(1))         //Average of all rates
-                }
-            })
+            movies: sortedMovies
 
         })
     } catch (err) {
@@ -37,20 +45,26 @@ const getShows = async (req, res, next) => {
     let shows;
     try {
         shows = await Movie.find({ isMovie: false });                                       //isMovie flag is set to false for every show
+
+        const unsortedShows = shows.slice(0, 10).map(show => {                              //Unsorted array
+            let sum = show.rating.reduce((a, b) => a + b, 0);                               //Sum of all rates
+            return {
+                _id: show._id,
+                title: show.title,
+                crew: show.crew,
+                year: show.year,
+                image: show.image,
+                rating: show.rating,
+                isMovie: show.isMovie,
+                ratingValue: parseFloat((sum / show.rating.length).toFixed(1))             //Average of all rates
+            }
+        })
+
+        const sortedShows = unsortedShows.sort(function (a, b) {                           //Sorted response
+            return b.ratingValue - a.ratingValue
+        })
         return res.status(200).json({
-            shows: shows.slice(0, 10).map(show => {
-                let sum = show.rating.reduce((a, b) => a + b, 0);                           //Sum of all rates
-                return {
-                    _id: show._id,
-                    title: show.title,
-                    crew: show.crew,
-                    year: show.year,
-                    image: show.image,
-                    rating: show.rating,
-                    isMovie: show.isMovie,
-                    ratingValue: parseFloat((sum / show.rating.length).toFixed(1))          //Average of all rates
-                }
-            })
+            shows: sortedShows
         })
     } catch (err) {
         const error = new Error(

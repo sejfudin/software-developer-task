@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getShows } from './showsActions';
 import { GET_MOVIES, IS_MOVIES_SHOWED, RATE_MOVIE } from "./types";
 
 //Get movies
@@ -27,6 +28,9 @@ export const rateMovie = (movieId, rate) => async dispatch => {
     dispatch({
         type: RATE_MOVIE
     })
+    dispatch(getMovies());
+    dispatch(getShows());
+
 }
 
 
