@@ -4,10 +4,8 @@ import { getSearchedMovies } from '../redux/actions/moviesActions';
 
 const Search = () => {
 
-
     const dispatch = useDispatch();
     const [filter, setFilter] = useState('');
-    console.log(filter.length)
 
     useEffect(() => {
         if (filter.length > 2) {
@@ -22,8 +20,7 @@ const Search = () => {
                     id="form1"
                     className="form-control float-end"
                     placeholder='Search'
-                    onChange={(e) => setFilter(e.target.value)}
-                />
+                    onChange={(e) => setFilter(e.target.value)}/>
             </div>
         </div>
     )

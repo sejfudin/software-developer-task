@@ -1,9 +1,7 @@
 import axios from 'axios';
 import {
     GET_INITIAL_MOVIES,
-    GET_INITIAL_SHOWS,
     GET_MOVIES,
-    GET_SHOWS,
     IS_MOVIES_SHOWED,
     RATE_MOVIE,
     SEARCH_MOVIES,
@@ -12,7 +10,7 @@ import {
 
 //Get movies
 export const getMovies = (data) => async dispatch => {
-
+console.log(data)
     const res = await axios.post('http://localhost:5000/api/movies', data);
     const movies = res.data.movies;
     dispatch({
@@ -29,26 +27,6 @@ export const getInitialMovies = (data) => async dispatch => {
     dispatch({
         type: GET_INITIAL_MOVIES,
         payload: movies
-    })
-}
-
-//Get shows
-export const getShows = (data) => async dispatch => {
-    const res = await axios.post('http://localhost:5000/api/shows', data);
-    const shows = res.data.shows
-    dispatch({
-        type: GET_SHOWS,
-        payload: shows
-    })
-}
-
-//Get initial shows
-export const getInitialShows = (data) => async dispatch => {
-    const res = await axios.post('http://localhost:5000/api/shows', data);
-    const shows = res.data.shows
-    dispatch({
-        type: GET_INITIAL_SHOWS,
-        payload: shows
     })
 }
 
@@ -73,7 +51,6 @@ export const setLoadMore = (data) => {
 export const getSearchedMovies = (filter) => async dispatch => {
     const res = await axios.get(`http://localhost:5000/api/movies/find/${filter}`);
     const movies = res.data.movies
-    console.log(movies)
     dispatch({
         type: SEARCH_MOVIES,
         payload: movies
@@ -86,9 +63,6 @@ export const rateMovie = (movieId, rate) => async dispatch => {
     dispatch({
         type: RATE_MOVIE
     })
-    dispatch(getMovies());
-    dispatch(getShows());
-
 }
 
 

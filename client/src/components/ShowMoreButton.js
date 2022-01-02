@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMovies, setLoadMore } from '../redux/actions/moviesActions';
-import { getShows } from '../redux/actions/moviesActions';
 
 const ShowMoreButton = () => {
 
@@ -9,10 +8,9 @@ const ShowMoreButton = () => {
 
     //Limit and skip from redux
     const loadMore = useSelector(state => state.movies.loadMore);
-    
-    // const [limit] = useState(10);
-    // const [skip, setSkip] = useState(10);
 
+    const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
+    
     //Show More function
     const onShowMore = (e) => {
 
@@ -22,12 +20,12 @@ const ShowMoreButton = () => {
         //New Skip, Limit is always the same
         let newData = {
             skip: newSkip,
-            limit: loadMore.limit
+            limit: loadMore.limit,
+            isMovie: isMoviesShowed
         }
 
         dispatch(setLoadMore(newData));
         dispatch(getMovies(newData));
-        dispatch(getShows(newData));
     }
 
     return (

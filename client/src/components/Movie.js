@@ -1,19 +1,26 @@
 import React from 'react';
 import RateStars from 'react-rating-stars-component';
-import { rateMovie } from '../redux/actions/moviesActions';
-import { useDispatch } from 'react-redux';
+import { getInitialMovies, getInitialShows, rateMovie } from '../redux/actions/moviesActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Movie = ({ movie }) => {
 
     const dispatch = useDispatch();
-
     const id = movie._id;
 
+    //Limit and skip from redux
+    const loadMore = useSelector(state => state.movies.loadMore);
+
+    //Rating single movie/show
     const setRating = (rate) => {
         const newRate = {
             rate: rate
         }
-        dispatch(rateMovie(id, newRate));                                       //reteMovie action will send movie id and rate to the backend
+        dispatch(rateMovie(id, newRate));              //reteMovie action will send movie id and rate to the backend
+
+        //Refreshing results after rating
+        dispatch(getInitialShows(loadMore));
+        dispatch(getInitialMovies(loadMore));
     }
 
     return (
@@ -26,7 +33,6 @@ const Movie = ({ movie }) => {
                     edit={true}
                     onChange={setRating} />
             </div>
-
             <img src={movie.image} className='card-img-top' alt='...' />
             <div className='card-body'>
                 <h5 className='card-title'>{movie.title}</h5>

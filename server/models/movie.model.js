@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 //Create movie Schema
 const movieSchema = new Schema({
-    
+
     title: {
         type: String
     },
@@ -23,10 +23,11 @@ const movieSchema = new Schema({
     //     type: mongoose.Types.ObjectId,
     //     ref: 'User'
     // }],
-    rating: [],
-    ratingValue:{
-        type: Number,
-        default: 0
+    rating: [{
+        type: Number
+    }],
+    ratingValue: {
+        type: Number
     }
 })
 

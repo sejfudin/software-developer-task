@@ -2,7 +2,6 @@ import { GET_INITAIL_MOVIES, GET_INITIAL_MOVIES, GET_INITIAL_SHOWS, GET_MOVIES, 
 
 const initialState = {
     movies: [],
-    shows: [],
     searchedMovies: [],
     isMoviesShowed: true,
     loadMore: {
@@ -24,18 +23,6 @@ const moviesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 movies: action.payload
-            };
-
-        case GET_INITIAL_SHOWS:
-            return {
-                ...state,
-                shows: action.payload
-            };
-
-        case GET_SHOWS:
-            return {
-                ...state,
-                shows: [...state.shows, ...action.payload]
             };
 
         case SEARCH_MOVIES:

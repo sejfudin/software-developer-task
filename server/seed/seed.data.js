@@ -12,20 +12,25 @@ const pushDataToDb = async () => {
 
     //Fetch movies from external API
     const resMovies = await axios.get(process.env.MOVIES_BASE_URL + process.env.API_KEY);
-    let movies = resMovies.data.items.slice(0, 30)
+    let movies = resMovies.data.items.slice(0, 30);
 
     //Fetch shows from external API
     const resShows = await axios.get(process.env.SHOWS_BASE_URL + process.env.API_KEY);
-    let shows = resShows.data.items.slice(0, 30)
+    let shows = resShows.data.items.slice(0, 30);
 
     //Seed movies
     for (let i = 0; i < movies.length; i++) {
+
+        // const rating = parseInt(movies[i].imDBRating);
+
         const newMovie = new Movie({
             title: movies[i].title,
             crew: movies[i].crew,
             year: parseInt(movies[i].year),
             image: movies[i].image,
-            isMovie: true
+            isMovie: true,
+            
+            ratingValue: parseFloat(movies[i].imDbRating / 3).toFixed(1)
         });
         await newMovie.save();
     }
@@ -37,7 +42,9 @@ const pushDataToDb = async () => {
             crew: shows[i].crew,
             year: parseInt(shows[i].year),
             image: shows[i].image,
-            isMovie: false
+            isMovie: false,
+            rating:parseFloat(shows[i].imDbRating / 3).toFixed(1),
+            ratingValue: (shows[i].imDbRating / 3).toFixed(1)
         });
         await newShow.save();
     }

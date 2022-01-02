@@ -1,16 +1,12 @@
 import React from 'react';
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import { getInitialMovies, getInitialShows, isMoviesShowed, setLoadMore } from '../redux/actions/moviesActions';
+import { getInitialMovies, isMoviesShowed, setLoadMore } from '../redux/actions/moviesActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Toggle = () => {
 
     const dispatch = useDispatch();
-
-    //Limit and skip from redux
-    const loadMore = useSelector(state => state.movies.loadMore);
-
     
     const isMovies = useSelector(state => state.movies.isMoviesShowed);
     
@@ -18,12 +14,12 @@ const Toggle = () => {
     const toggleHandler = (checked) => {
         const data = {
             skip: 0,
-            limit: 10
+            limit: 10,
+            isMovie: checked
         }
 
         dispatch(isMoviesShowed(checked));
         dispatch(getInitialMovies(data));
-        dispatch(getInitialShows(data));
         dispatch(setLoadMore(data));
     }
     return (

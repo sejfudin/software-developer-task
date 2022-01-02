@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMovies, getShows, setLoadMore} from '../redux/actions/moviesActions';
+import { getMovies, getShows, setLoadMore } from '../redux/actions/moviesActions';
 
 import Movie from './Movie';
 import ShowMoreButton from './ShowMoreButton';
@@ -17,11 +17,12 @@ const Home = () => {
     const [toShow, setToShow] = useState(movies);
 
     useEffect(() => {
-        const data= {
-            skip:0,
-            limit:10
+        const data = {
+            skip: loadMore.skip,
+            limit: loadMore.limit,
+            isMovie: isMoviesShowed
         }
-        dispatch(getMovies(loadMore));
+        dispatch(getMovies(data));
         dispatch(getShows(loadMore));
     }, [dispatch])
 
@@ -39,13 +40,13 @@ const Home = () => {
         <div className='container'>
             <div className="row">
 
-                {isMoviesShowed && movies?.map((movie, index) => {
+                {movies?.map((movie, index) => {
                     return <div className="col-sm-6 col-md-4 col-lg-3" key={index}><Movie movie={movie} /></div>
                 })}
-                {!isMoviesShowed && shows?.map((movie, index) => {
-                    return <div className="col-sm-6 col-md-4 col-lg-3" key={index}><Movie movie={movie} /></div>
-                })}
-                <ShowMoreButton toShow={toShow} setToShow={setToShow} />
+
+                {movies.length < 30 && <ShowMoreButton toShow={toShow} setToShow={setToShow} />
+                }
+
             </div>
         </div>
     )
