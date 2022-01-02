@@ -1,9 +1,14 @@
-import { GET_MOVIES, IS_MOVIES_SHOWED, SEARCH_MOVIES } from '../actions/types';
+import { GET_MOVIES, GET_SHOWS, IS_MOVIES_SHOWED, SEARCH_MOVIES, SET_LOAD_MORE } from '../actions/types';
 
 const initialState = {
-    movies: [], 
+    movies: [],
+    shows: [],
     searchedMovies: [],
-    isMoviesShowed: true
+    isMoviesShowed: true,
+    loadMore: {
+        skip: 0,
+        limit: 10
+    }
 };
 
 const moviesReducer = (state = initialState, action) => {
@@ -15,15 +20,27 @@ const moviesReducer = (state = initialState, action) => {
                 movies: [...state.movies, ...action.payload]
             };
 
-            case SEARCH_MOVIES:
+        case GET_SHOWS:
             return {
                 ...state,
-                searchedMovies: action.payload
+                shows: [...state.shows, ...action.payload]
             };
-            case IS_MOVIES_SHOWED:
+
+        case SEARCH_MOVIES:
+            return {
+                ...state,
+                movies: action.payload
+            };
+        case IS_MOVIES_SHOWED:
             return {
                 ...state,
                 isMoviesShowed: action.payload
+            };
+
+        case SET_LOAD_MORE:
+            return {
+                ...state,
+                loadMore: action.payload
             };
 
         default:

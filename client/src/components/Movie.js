@@ -2,7 +2,6 @@ import React from 'react';
 import RateStars from 'react-rating-stars-component';
 import { rateMovie } from '../redux/actions/moviesActions';
 import { useDispatch } from 'react-redux';
-import { getShows } from '../redux/actions/showsActions';
 
 const Movie = ({ movie }) => {
 

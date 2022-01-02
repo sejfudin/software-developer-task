@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { getShows } from './showsActions';
-import { GET_MOVIES, IS_MOVIES_SHOWED, RATE_MOVIE, SEARCH_MOVIES } from "./types";
+import { GET_MOVIES, GET_SHOWS, IS_MOVIES_SHOWED, RATE_MOVIE, SEARCH_MOVIES, SET_LOAD_MORE } from "./types";
 
 //Get movies
 export const getMovies = (data) => async dispatch => {
@@ -13,12 +12,31 @@ export const getMovies = (data) => async dispatch => {
     })
 }
 
+//Get shows
+export const getShows = (data) => async dispatch => {
+    const res = await axios.post('http://localhost:5000/api/shows', data);
+    const shows = res.data.shows
+    dispatch({
+        type: GET_SHOWS,
+        payload: shows
+    })
+}
+
 //Movies/Shows toggle
 export const isMoviesShowed = (isShowed) => {
     
     return{
         type: IS_MOVIES_SHOWED,
         payload: isShowed
+    }
+}
+
+//Set skip i limit
+export const setLoadMore = (data) => {
+    
+    return{
+        type: SET_LOAD_MORE,
+        payload: data
     }
 }
 
@@ -29,7 +47,7 @@ export const getSearchedMovies = (filter) => async dispatch => {
     console.log(movies)
     dispatch({
         type: SEARCH_MOVIES,
-        payload: movies
+        payload: movies.filter(movie=>movie.isMovie===true)
     })
 }
 
@@ -39,9 +57,6 @@ export const rateMovie = (movieId, rate) => async dispatch => {
     dispatch({
         type: RATE_MOVIE
     })
-    dispatch(getMovies());
-    dispatch(getShows());
-
 }
 
 
