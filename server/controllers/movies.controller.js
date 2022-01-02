@@ -2,10 +2,11 @@ const Movie = require('../models/movie.model');
 
 //Get movies  
 const getMovies = async (req, res, next) => {
-    let {limit, skip} = req.body;
+    let { limit, skip } = req.body;
 
     try {
         Movie.aggregate([
+            { "$match": { "isMovie": true } },                                              //Find only movies
             {
                 "$addFields": {
                     "rating_avg": { "$avg": "$rating" }                                     //Add field rating_avg - calculate average rate
@@ -15,12 +16,13 @@ const getMovies = async (req, res, next) => {
             { "$skip": skip },
             { "$limit": limit }                                                             //Limit to 10 movies per request
         ], function (err, movies) {
-            if (err) { console.log(err) }
-            else {
+            if (err) {
+                console.log(err)
+            } else {
                 return res.status(200).json({
                     movies: movies.map(movie => {
                         let sum = movie.rating.reduce((a, b) => a + b, 0);                  //Sum of all rates
-                        let ratingValue = parseInt(sum / movie.rating.length);              //Average of all rates                   
+                        let ratingValue = parseFloat(sum / movie.rating.length);              //Average of all rates                   
                         return {
                             _id: movie._id,
                             title: movie.title,
@@ -46,30 +48,41 @@ const getMovies = async (req, res, next) => {
 
 //Get shows  
 const getShows = async (req, res, next) => {
+    let { limit, skip } = req.body;
 
-    let shows;
     try {
-        shows = await Movie.find({ isMovie: false });                                       //isMovie flag is set to false for every show
+        Movie.aggregate([
+            { "$match": { "isMovie": false } },                                             //Find only shows
+            {
+                "$addFields": {
+                    "rating_avg": { "$avg": "$rating" }                                     //Add field rating_avg - calculate average rate
+                }
+            },
+            { "$sort": { "rating_avg": -1 } },                                              //Sort by rating_avg desc
+            { "$skip": skip },
+            { "$limit": limit }                                                             //Limit to 10 showa per request
+        ], function (err, shows) {
+            if (err) {
+                console.log(err)
+            } else {
 
-        const unsortedShows = shows.slice(0, 10).map(show => {                              //Unsorted array
-            let sum = show.rating.reduce((a, b) => a + b, 0);                               //Sum of all rates
-            return {
-                _id: show._id,
-                title: show.title,
-                crew: show.crew,
-                year: show.year,
-                image: show.image,
-                rating: show.rating,
-                isMovie: show.isMovie,
-                ratingValue: parseFloat((sum / show.rating.length).toFixed(1))             //Average of all rates
+                return res.status(200).json({
+                    shows: shows.map(show => {
+                        let sum = show.rating.reduce((a, b) => a + b, 0);                   //Sum of all rates
+                        let ratingValue = parseFloat(sum / show.rating.length);              //Average of all rates  
+                        return {
+                            _id: show._id,
+                            title: show.title,
+                            crew: show.crew,
+                            year: show.year,
+                            image: show.image,
+                            rating: show.rating,
+                            isMovie: show.isMovie,
+                            ratingValue: ratingValue
+                        }
+                    })
+                })
             }
-        })
-
-        const sortedShows = unsortedShows.sort(function (a, b) {                           //Sorted response
-            return b.ratingValue - a.ratingValue
-        })
-        return res.status(200).json({
-            shows: sortedShows
         })
     } catch (err) {
         const error = new Error(
@@ -86,6 +99,7 @@ const addRate = async (req, res, next) => {
     const { rate } = req.body;
 
     let updatedMovie;
+    let shows;
     try {
         updatedMovie = await Movie.findById(id)                                              //Find the movie that should be rated
     } catch (err) {

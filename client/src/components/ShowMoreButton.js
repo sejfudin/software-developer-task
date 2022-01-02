@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMovies } from '../redux/actions/moviesActions';
+import { getShows } from '../redux/actions/showsActions';
 
-const ShowMoreButton = ({toShow, setToShow}) => {
+const ShowMoreButton = () => {
 
     const dispatch = useDispatch();
 
-    const [limit, setLimit] = useState(10);
+    const [limit] = useState(10);
     const [skip, setSkip] = useState(10);
 
 
     const onShowMore = (e)=> {
-        e.preventDefault();
 
         let newSkip = skip + limit;
        
@@ -19,7 +19,8 @@ const ShowMoreButton = ({toShow, setToShow}) => {
             limit: limit,
             skip: skip
         }
-        dispatch(getMovies(data))
+        dispatch(getMovies(data));
+        dispatch(getShows(data));
         setSkip(newSkip)
     }
 

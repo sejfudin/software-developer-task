@@ -15,15 +15,13 @@ const Home = () => {
 
     const [toShow, setToShow] = useState(movies);
 
-
-
     useEffect(() => {
         const data = {
             limit: 10,
             skip:0
         }
         dispatch(getMovies(data));
-        dispatch(getShows());
+        dispatch(getShows(data));
 
     }, [dispatch])
 
@@ -31,8 +29,6 @@ const Home = () => {
         isMoviesShowed ? setToShow(movies) : setToShow(shows);
        
     }, [isMoviesShowed, movies, shows])
-    console.log(toShow)
-    console.log(movies)
 
     return (
         <div className='container'>

@@ -10,7 +10,7 @@ const showsReducer = (state = initialState, action) => {
             case GET_SHOWS:
             return {
                 ...state,
-                shows: action.payload
+                shows: [...state.shows, ...action.payload]
             };
 
         default:
