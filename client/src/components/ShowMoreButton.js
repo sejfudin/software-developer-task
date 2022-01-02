@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMovies, getShows, setLoadMore } from '../redux/actions/moviesActions';
+import { getMovies, setLoadMore } from '../redux/actions/moviesActions';
+import { getShows } from '../redux/actions/moviesActions';
 
 const ShowMoreButton = () => {
 
@@ -8,10 +9,12 @@ const ShowMoreButton = () => {
 
     //Limit and skip from redux
     const loadMore = useSelector(state => state.movies.loadMore);
-    const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
+    
+    // const [limit] = useState(10);
+    // const [skip, setSkip] = useState(10);
 
     //Show More function
-    const onShowMore = () => {
+    const onShowMore = (e) => {
 
         //Increase skip on every cick
         let newSkip = loadMore.skip + loadMore.limit;
@@ -29,11 +32,7 @@ const ShowMoreButton = () => {
 
     return (
         <div className="d-grid gap-2 d-flex justify-content-center mb-5">
-            <button
-                className='btn btn-primary w-25'
-                onClick={onShowMore}>
-                Show More
-            </button>
+            <button className='btn btn-primary w-25' onClick={onShowMore}>Show More</button>
         </div>
     )
 }

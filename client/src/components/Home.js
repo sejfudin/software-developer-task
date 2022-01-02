@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMovies, getShows } from '../redux/actions/moviesActions';
+import { getMovies, getShows, setLoadMore} from '../redux/actions/moviesActions';
 
 import Movie from './Movie';
 import ShowMoreButton from './ShowMoreButton';
@@ -17,31 +17,34 @@ const Home = () => {
     const [toShow, setToShow] = useState(movies);
 
     useEffect(() => {
+        const data= {
+            skip:0,
+            limit:10
+        }
         dispatch(getMovies(loadMore));
         dispatch(getShows(loadMore));
     }, [dispatch])
 
-    useEffect(() => {
-        isMoviesShowed ? setToShow(movies) : setToShow(shows);
-    }, [isMoviesShowed, movies, shows])
+    // useEffect(() => {
+    //     isMoviesShowed ? setToShow(movies) : setToShow(shows);
 
+    // }, [isMoviesShowed, movies, shows])
 
     // useEffect(() => {
-    //     let orderedSearchResults = searchedMovies.sort(function (a, b) { return b.ratingValue - a.ratingValue });
-    //     isMoviesShowed ? setToShow(orderedSearchResults.filter(movie => movie.isMovie === true)) : setToShow(orderedSearchResults.filter(movie => movie.isMovie === false));
+    //     setToShow(searchedMovies);
 
-    // }, [searchedMovies, isMoviesShowed])
+    // }, [searchedMovies])
 
     return (
         <div className='container'>
             <div className="row">
 
-                {toShow?.map((movie, index) => {
+                {isMoviesShowed && movies?.map((movie, index) => {
                     return <div className="col-sm-6 col-md-4 col-lg-3" key={index}><Movie movie={movie} /></div>
                 })}
-                {/* {searchedMovies?.map((movie, index) => {
+                {!isMoviesShowed && shows?.map((movie, index) => {
                     return <div className="col-sm-6 col-md-4 col-lg-3" key={index}><Movie movie={movie} /></div>
-                })} */}
+                })}
                 <ShowMoreButton toShow={toShow} setToShow={setToShow} />
             </div>
         </div>
