@@ -2,7 +2,7 @@ const Movie = require('../models/movie.model');
 
 //Get movies  
 const getMovies = async (req, res, next) => {
-    let { limit, skip } = req.body;
+    let { limit, skip} = req.body;
 console.log(limit,skip)
     try {
         Movie.aggregate([
@@ -110,9 +110,9 @@ const addRate = async (req, res, next) => {
 
     updatedMovie.rating.push(rate);                                                         //push current rate to the rating array
 
-    let sum = updatedMovie.rating.reduce((a, b) => a + b, 0);
-    let ratingValue = parseFloat(sum / updatedMovie.rating.length);
-    updatedMovie.ratingValue = ratingValue;
+    // let sum = updatedMovie.rating.reduce((a, b) => a + b, 0);
+    // let ratingValue = parseFloat(sum / updatedMovie.rating.length);
+    // updatedMovie.ratingValue = ratingValue;
 
     try {
         await updatedMovie.save();                                                          //save changes

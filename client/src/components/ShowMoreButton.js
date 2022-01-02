@@ -8,6 +8,7 @@ const ShowMoreButton = () => {
 
     //Limit and skip from redux
     const loadMore = useSelector(state => state.movies.loadMore);
+    const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
 
     //Show More function
     const onShowMore = () => {

@@ -12,7 +12,7 @@ const Home = () => {
     const searchedMovies = useSelector(state => state.movies.searchedMovies);
     const shows = useSelector(state => state.movies.shows);
     const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
-    const loadMore = useSelector(state=>state.movies.loadMore);
+    const loadMore = useSelector(state => state.movies.loadMore);
 
     const [toShow, setToShow] = useState(movies);
 
@@ -24,6 +24,7 @@ const Home = () => {
     useEffect(() => {
         isMoviesShowed ? setToShow(movies) : setToShow(shows);
     }, [isMoviesShowed, movies, shows])
+
 
     // useEffect(() => {
     //     let orderedSearchResults = searchedMovies.sort(function (a, b) { return b.ratingValue - a.ratingValue });

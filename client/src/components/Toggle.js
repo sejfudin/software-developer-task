@@ -8,6 +8,7 @@ const Toggle = () => {
 
     const dispatch = useDispatch();
 
+    //Toggle button functionality
     const toggleHandler = (checked) => {
         dispatch(isMoviesShowed(checked));
     }
@@ -20,13 +21,8 @@ const Toggle = () => {
                     onlabel='MOVIES'
                     offlabel='SHOWS'
                     onChange={(checked) => { toggleHandler(checked) }} />
-
-
             </div>
         </div>
-
-
-
     )
 }
 export default Toggle;
