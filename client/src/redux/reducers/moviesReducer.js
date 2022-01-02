@@ -1,7 +1,8 @@
-import { GET_MOVIES, IS_MOVIES_SHOWED } from '../actions/types';
+import { GET_MOVIES, IS_MOVIES_SHOWED, SEARCH_MOVIES } from '../actions/types';
 
 const initialState = {
     movies: [], 
+    searchedMovies: [],
     isMoviesShowed: true
 };
 
@@ -12,6 +13,12 @@ const moviesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 movies: [...state.movies, ...action.payload]
+            };
+
+            case SEARCH_MOVIES:
+            return {
+                ...state,
+                searchedMovies: action.payload
             };
             case IS_MOVIES_SHOWED:
             return {

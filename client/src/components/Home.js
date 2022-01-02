@@ -10,6 +10,7 @@ const Home = () => {
 
     const dispatch = useDispatch();
     const movies = useSelector(state => state.movies.movies);
+    const searchedMovies = useSelector(state => state.movies.searchedMovies);
     const shows = useSelector(state => state.shows.shows);
     const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
 
@@ -29,6 +30,11 @@ const Home = () => {
         isMoviesShowed ? setToShow(movies) : setToShow(shows);
        
     }, [isMoviesShowed, movies, shows])
+
+    useEffect(() => {
+        setToShow(searchedMovies);
+       
+    }, [searchedMovies])
 
     return (
         <div className='container'>

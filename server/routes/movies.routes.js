@@ -5,6 +5,7 @@ const moviesController = require('../controllers/movies.controller');
 router.post('/movies', moviesController.getMovies);
 router.post('/shows', moviesController.getShows);
 router.put('/rate/:id', moviesController.addRate);
+router.get('/movies/find/:filter', moviesController.getSearchedMovies);
 
 
 

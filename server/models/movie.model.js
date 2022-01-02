@@ -25,7 +25,8 @@ const movieSchema = new Schema({
     // }],
     rating: [],
     ratingValue:{
-        type: Number
+        type: Number,
+        default: 0
     }
 })
 
