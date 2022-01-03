@@ -8,12 +8,11 @@ const client = new OAuth2Client("593666384376-ngcoi5gfh139p8jbiidf2kosedh7l1j8.a
 const googleLogin = async (req, res, next) => {
     
     const { tokenId } = req.body;
-    
+
     client.verifyIdToken({ idToken: tokenId, audience: "593666384376-ngcoi5gfh139p8jbiidf2kosedh7l1j8.apps.googleusercontent.com" })
         .then(response => {
             const { email_verified, name, email } = response.payload;
             if (email_verified) {
-                console.log('okino')
                 User.findOne({ email }).exec((err, user) => {
 
                     if (err) {

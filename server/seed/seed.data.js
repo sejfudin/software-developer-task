@@ -29,7 +29,7 @@ const pushDataToDb = async () => {
             year: parseInt(movies[i].year),
             image: movies[i].image,
             isMovie: true,
-            
+            rating:parseFloat(shows[i].imDbRating / 3).toFixed(1),
             ratingValue: parseFloat(movies[i].imDbRating / 3).toFixed(1)
         });
         await newMovie.save();

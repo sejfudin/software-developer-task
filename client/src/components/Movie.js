@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactStars from 'react-rating-stars-component';
-import { getInitialMovies, rateMovie } from '../redux/actions/moviesActions';
+import { getInitialMovies, rateMovie} from '../redux/actions/moviesActions';
 import { useDispatch, useSelector } from 'react-redux';
 
-const Movie = ({ movie }) => {
+const Movie = ({ movie, toggleModal }) => {
 
     const dispatch = useDispatch();
     const id = movie._id;
@@ -11,18 +11,21 @@ const Movie = ({ movie }) => {
     //Limit and skip from redux
     const loadMore = useSelector(state => state.movies.loadMore);
     const isAuth = useSelector(state => state.users.isAuthenticated);
+    const userId = useSelector(state => state.users.user._id);
 
-    console.log(isAuth)
+    
 
     //Rating single movie/show
     const setRating = (rate) => {
         const newRate = {
-            rate: rate
+            rate: rate,
+            userId: userId
         }
         dispatch(rateMovie(id, newRate));              //reteMovie action will send movie id and rate to the backend
 
         //Refreshing results after rating
         dispatch(getInitialMovies(loadMore));
+        toggleModal();
     }
 
     return (

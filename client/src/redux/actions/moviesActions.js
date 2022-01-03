@@ -20,7 +20,6 @@ export const setSearchingTerm = (word) => {
 
 //Get movies/shows
 export const getMovies = (data) => async dispatch => {
-console.log(data)
     const res = await axios.post('http://localhost:5000/api/movies', data);
     const movies = res.data.movies;
     dispatch({
@@ -78,13 +77,10 @@ export const getSearchedMovies = (data) => async dispatch => {
 
 //Rate 
 export const rateMovie = (movieId, rate) => async dispatch => {
-    await axios.put(`http://localhost:5000/api/rate/${movieId}`, rate);
+    let res = await axios.put(`http://localhost:5000/api/rate/${movieId}`, rate);
+    let message = res.data.message;
     dispatch({
-        type: RATE_MOVIE
+        type: RATE_MOVIE,
+        payload: message
     })
 }
-
-
-
-
-

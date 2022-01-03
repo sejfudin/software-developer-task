@@ -16,8 +16,8 @@ const Header = () => {
                 <div >
                 <div className='row'>
                     
-                      <div className='col-8 '><Search /></div> 
-                <div className='col-3 my-3 me-4 float-end'><Login /></div>  
+                      <div className='col-7 '><Search /></div> 
+                <div className='col-4 my-3 me-4 float-end'><Login /></div>  
                     </div>
                    
                 </div>

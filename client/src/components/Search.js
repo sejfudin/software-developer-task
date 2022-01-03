@@ -7,22 +7,23 @@ const Search = () => {
     const dispatch = useDispatch();
 
     //Limit and skip from redux
-    const loadMore = useSelector(state => state.movies.loadMore); 
+    const loadMore = useSelector(state => state.movies.loadMore);
     const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
 
     const [filter, setFilter] = useState('');
 
     useEffect(() => {
-        const data={
+        const data = {
             isMovie: isMoviesShowed,
-            term:filter,
-            skip:loadMore.skip,
+            term: filter,
+            skip: loadMore.skip,
             limit: loadMore.limit
         }
         if (filter.length > 2) {
             dispatch(getSearchedMovies(data));
         }
         dispatch(setSearchingTerm(filter));
+        // eslint-disable-next-line
     }, [dispatch, filter])
     return (
         <div>
@@ -32,7 +33,7 @@ const Search = () => {
                     id="form1"
                     className="form-control float-end"
                     placeholder='Search'
-                    onChange={(e) => setFilter(e.target.value)}/>
+                    onChange={(e) => setFilter(e.target.value)} />
             </div>
         </div>
     )

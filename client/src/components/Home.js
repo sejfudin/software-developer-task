@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMovies } from '../redux/actions/moviesActions';
+import MessageModal from './MessageModal';
 
 import Movie from './Movie';
 import ShowMoreButton from './ShowMoreButton';
@@ -14,7 +15,11 @@ const Home = () => {
     const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
     const loadMore = useSelector(state => state.movies.loadMore);
 
-    const [toShow, setToShow] = useState(movies);
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleModal = () => {
+        setIsOpen(!isOpen)
+    }
 
     useEffect(() => {
         const data = {
@@ -23,10 +28,12 @@ const Home = () => {
             isMovie: isMoviesShowed
         }
         dispatch(getMovies(data));
+        // eslint-disable-next-line
     }, [dispatch])
 
     return (
         <div className='container'>
+            <MessageModal isOpen={isOpen} toggleModal={toggleModal} />
             <div className="row">
                 {
                     searchTerm.length < 3 ? movies.map(movie => {
@@ -34,22 +41,22 @@ const Home = () => {
                             <div
                                 className="col-sm-6 col-md-4 col-lg-3"
                                 key={movie._id}>
-                                <Movie movie={movie} />
+                                <Movie movie={movie} toggleModal={toggleModal} />
                             </div>
                         )
                     })
-                    :
-                    searched.map(movie => {
-                        return (
-                            <div
-                                className="col-sm-6 col-md-4 col-lg-3"
-                                key={movie._id}>
-                                <Movie movie={movie} />
-                            </div>
-                        )
-                    })
+                        :
+                        searched.map(movie => {
+                            return (
+                                <div
+                                    className="col-sm-6 col-md-4 col-lg-3"
+                                    key={movie._id}>
+                                    <Movie movie={movie} toggleModal={toggleModal} />
+                                </div>
+                            )
+                        })
                 }
-                {movies.length < 30 && <ShowMoreButton toShow={toShow} setToShow={setToShow} />}
+                {movies.length < 30 && <ShowMoreButton />}
             </div>
         </div>
     )

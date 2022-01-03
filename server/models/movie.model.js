@@ -19,10 +19,9 @@ const movieSchema = new Schema({
     isMovie: {
         type: Boolean
     },
-    //  ratedBy: [{
-    //     type: mongoose.Types.ObjectId,
-    //     ref: 'User'
-    // }],
+     ratedBy: [{
+        type: String
+    }],
     rating: [{
         type: Number
     }],

@@ -1,7 +1,17 @@
-import { GET_INITIAL_MOVIES, GET_MOVIES, INITIAL_SEARCH_MOVIES, IS_MOVIES_SHOWED, SEARCH_MOVIES, SET_LOAD_MORE, SET_SEARCH } from '../actions/types';
+import {
+    GET_INITIAL_MOVIES,
+    GET_MOVIES,
+    INITIAL_SEARCH_MOVIES,
+    IS_MOVIES_SHOWED,
+    RATE_MOVIE,
+    SEARCH_MOVIES,
+    SET_LOAD_MORE,
+    SET_SEARCH
+} from '../actions/types';
 
 const initialState = {
     searchTerm: '',
+    message: '',
     movies: [],
     searchedMovies: [],
     isMoviesShowed: true,
@@ -13,6 +23,12 @@ const initialState = {
 
 const moviesReducer = (state = initialState, action) => {
     switch (action.type) {
+
+        case RATE_MOVIE:
+            return {
+                ...state,
+                message: action.payload
+            };
 
         case GET_MOVIES:
             return {

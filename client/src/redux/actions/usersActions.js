@@ -1,27 +1,27 @@
 import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
 import jwt_decode from 'jwt-decode';
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { SET_CURRENT_USER } from './types';
 
 //Login user
 export const googleLogin = (data) => async dispatch => {
     await axios.post('http://localhost:5000/api/login', data)
-    .then(res => {
-        // Save to localStorage
+        .then(res => {
+            // Save to localStorage
 
-        // Set token to localStorage
-        const { token } = res.data;
-        localStorage.setItem('jwtToken', token);
-        // Set token to Auth header
-        setAuthToken(token);
-        // Decode token to get user data
-        const decoded = jwt_decode(token);
-        // Set current user
-        dispatch(setCurrentUser(decoded));
-    })
-    .catch(err =>
-       console.log(err)
-    );
+            // Set token to localStorage
+            const { token } = res.data;
+            localStorage.setItem('jwtToken', token);
+            // Set token to Auth header
+            setAuthToken(token);
+            // Decode token to get user data
+            const decoded = jwt_decode(token);
+            // Set current user
+            dispatch(setCurrentUser(decoded));
+        })
+        .catch(err =>
+            console.log(err)
+        );
 }
 
 // Set logged in user
@@ -40,5 +40,5 @@ export const logoutUser = () => dispatch => {
     setAuthToken(false);
     // Set current user to empty object {} which will set isAuthenticated to false
     dispatch(setCurrentUser({}));
-   
+
 };

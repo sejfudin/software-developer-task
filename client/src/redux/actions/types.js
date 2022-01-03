@@ -15,5 +15,3 @@ export const SET_LOAD_MORE = 'SET_LOAD_MORE';
 //Google Login
 export const GOOGLE_LOGIN = 'GOOGLE_LOGIN';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-
-
