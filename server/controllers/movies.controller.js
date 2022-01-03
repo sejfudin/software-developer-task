@@ -2,9 +2,8 @@ const Movie = require('../models/movie.model');
 
 //Get movies  
 const getMovies = async (req, res, next) => {
-    let { limit, skip, isMovie } = req.body;
 
-    console.log(req.body)
+    let { limit, skip, isMovie } = req.body;
 
     let movies;
     try {
@@ -12,8 +11,8 @@ const getMovies = async (req, res, next) => {
             .sort({ ratingValue: -1, _id: 1 })
             .skip(skip)
             .limit(limit)
-    console.log(movies)
-        return res.status(200).json({ movies: movies })
+
+        return res.status(200).json({ movies: movies.map(movie => movie.toObject({ getters: true })) })
 
     } catch (err) {
         const error = new Error(

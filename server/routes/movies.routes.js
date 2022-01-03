@@ -5,6 +5,6 @@ const searchController = require('../controllers/search.controller');
 
 router.post('/movies', moviesController.getMovies);
 router.put('/rate/:id', moviesController.addRate);
-router.get('/movies/find/:filter', searchController.getSearchedMovies);
+router.post('/movies/find', searchController.getSearchedMovies);
 
 module.exports = router;

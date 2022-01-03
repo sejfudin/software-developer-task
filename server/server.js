@@ -5,6 +5,8 @@ const cors = require('cors');
 const db = require('./config/db');
 
 const moviesRoutes = require('./routes/movies.routes');
+const userRoutes = require('./routes/user.routes');
+
 
 dotenv.config();
 
@@ -23,6 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 //Routes
 //Routes
 app.use('/api', moviesRoutes);
+app.use('/api', userRoutes);
+
 
 
 const port = process.env.PORT || 5000;

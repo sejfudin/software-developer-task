@@ -1,26 +1,31 @@
 import React from 'react';
 
 import BootstrapSwitchButton from 'bootstrap-switch-button-react'
-import { getInitialMovies, isMoviesShowed, setLoadMore } from '../redux/actions/moviesActions';
+import { getInitialMovies, getInitialSearchedMovies, isMoviesShowed, setLoadMore, setSearchingTerm } from '../redux/actions/moviesActions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Toggle = () => {
 
     const dispatch = useDispatch();
-    
+
     const isMovies = useSelector(state => state.movies.isMoviesShowed);
-    
+    const searchTerm = useSelector(state => state.movies.searchTerm);
+
     //Toggle button functionality
     const toggleHandler = (checked) => {
         const data = {
+            isMovie: isMovies,
+            term: searchTerm,
             skip: 0,
             limit: 10,
             isMovie: checked
         }
 
         dispatch(isMoviesShowed(checked));
-        dispatch(getInitialMovies(data));
+        searchTerm < 3 ? dispatch(getInitialMovies(data)) : dispatch(getInitialSearchedMovies(data));
+
         dispatch(setLoadMore(data));
+
     }
     return (
         <div className='container d-flex justify-content-center my-3'>

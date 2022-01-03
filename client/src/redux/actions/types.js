@@ -6,7 +6,14 @@ export const RATE_MOVIE = ' RATE_MOVIE';
 
 //Search
 export const SEARCH_MOVIES = 'SEARCH_MOVIES';
+export const INITIAL_SEARCH_MOVIES = 'INITIAL_SEARCH_MOVIES';
+export const SET_SEARCH = 'SET_SEARCH';
 
 //Load More
 export const SET_LOAD_MORE = 'SET_LOAD_MORE';
+
+//Google Login
+export const GOOGLE_LOGIN = 'GOOGLE_LOGIN';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
 

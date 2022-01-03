@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMovies, setLoadMore } from '../redux/actions/moviesActions';
+import { getMovies, getSearchedMovies, setLoadMore } from '../redux/actions/moviesActions';
 
 const ShowMoreButton = () => {
 
@@ -8,9 +8,9 @@ const ShowMoreButton = () => {
 
     //Limit and skip from redux
     const loadMore = useSelector(state => state.movies.loadMore);
-
     const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
-    
+    const searchTerm = useSelector(state => state.movies.searchTerm);
+
     //Show More function
     const onShowMore = (e) => {
 
@@ -19,13 +19,14 @@ const ShowMoreButton = () => {
 
         //New Skip, Limit is always the same
         let newData = {
+            filter: searchTerm,
             skip: newSkip,
             limit: loadMore.limit,
             isMovie: isMoviesShowed
         }
 
         dispatch(setLoadMore(newData));
-        dispatch(getMovies(newData));
+        searchTerm.length < 3 ? dispatch(getMovies(newData)) : dispatch(getSearchedMovies(newData))
     }
 
     return (

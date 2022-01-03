@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
-import { getSearchedMovies } from '../redux/actions/moviesActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSearchedMovies, setSearchingTerm } from '../redux/actions/moviesActions';
 
 const Search = () => {
 
     const dispatch = useDispatch();
+
+    //Limit and skip from redux
+    const loadMore = useSelector(state => state.movies.loadMore); 
+    const isMoviesShowed = useSelector(state => state.movies.isMoviesShowed);
+
     const [filter, setFilter] = useState('');
 
     useEffect(() => {
-        if (filter.length > 2) {
-            dispatch(getSearchedMovies(filter));
+        const data={
+            isMovie: isMoviesShowed,
+            term:filter,
+            skip:loadMore.skip,
+            limit: loadMore.limit
         }
+        if (filter.length > 2) {
+            dispatch(getSearchedMovies(data));
+        }
+        dispatch(setSearchingTerm(filter));
     }, [dispatch, filter])
     return (
-        <div className='float-right w-25 me-4'>
-            <div className="input-group float-end my-3" >
+        <div>
+            <div className=" float-end my-3" >
                 <input
                     type="search"
                     id="form1"
