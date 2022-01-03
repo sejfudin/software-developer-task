@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {
+    CLEAR_MOVIES,
+    CLEAR_SEARCHED_MOVIES,
     GET_INITIAL_MOVIES,
     GET_MOVIES,
     INITIAL_SEARCH_MOVIES,
@@ -15,6 +17,22 @@ export const setSearchingTerm = (word) => {
     return {
         type: SET_SEARCH,
         payload: word
+    }
+}
+
+//Clear Movies/Shows
+export const clearMovies = () => {
+    return {
+        type: CLEAR_MOVIES,
+        payload: []
+    }
+}
+
+//Clear searched Movies/Shows
+export const clearSearchedMovies = () => {
+    return {
+        type: CLEAR_SEARCHED_MOVIES,
+        payload: []
     }
 }
 

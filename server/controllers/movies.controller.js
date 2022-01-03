@@ -11,15 +11,14 @@ const getMovies = async (req, res, next) => {
             .sort({ ratingValue: -1, _id: 1 })
             .skip(skip)
             .limit(limit)
-
-        return res.status(200).json({ movies: movies.map(movie => movie.toObject({ getters: true })) })
-
     } catch (err) {
         const error = new Error(
             'Fetching movies failed', 500
         );
         return next(error);
     }
+
+    return res.status(200).json({ movies: movies.map(movie => movie.toObject({ getters: true })) })
 }
 
 //Rating
@@ -45,7 +44,7 @@ const addRate = async (req, res, next) => {
         updatedMovie.ratedBy.push(userId);              //push current user to ratedBy array   
 
         let sum = updatedMovie.rating.reduce((a, b) => a + b, 0);
-        let ratingValue = parseFloat(sum / updatedMovie.rating.length).toFixed(1);
+        let ratingValue = parseInt(sum / updatedMovie.rating.length);
         updatedMovie.ratingValue = ratingValue;
 
         res.json({ message: "You rate this movie successfully!" })

@@ -1,4 +1,6 @@
 import {
+    CLEAR_MOVIES,
+    CLEAR_SEARCHED_MOVIES,
     GET_INITIAL_MOVIES,
     GET_MOVIES,
     INITIAL_SEARCH_MOVIES,
@@ -70,6 +72,18 @@ const moviesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loadMore: action.payload
+            };
+
+        case CLEAR_MOVIES:
+            return {
+                ...state,
+                movies: action.payload
+            };
+
+        case CLEAR_SEARCHED_MOVIES:
+            return {
+                ...state,
+                searchedMovies: action.payload
             };
 
         default:

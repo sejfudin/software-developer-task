@@ -29,8 +29,8 @@ const pushDataToDb = async () => {
             year: parseInt(movies[i].year),
             image: movies[i].image,
             isMovie: true,
-            rating:parseFloat(shows[i].imDbRating / 3).toFixed(1),
-            ratingValue: parseFloat(movies[i].imDbRating / 3).toFixed(1)
+            rating: parseInt(shows[i].imDbRating / 3),
+            ratingValue: parseInt(movies[i].imDbRating / 3)
         });
         await newMovie.save();
     }
@@ -43,8 +43,8 @@ const pushDataToDb = async () => {
             year: parseInt(shows[i].year),
             image: shows[i].image,
             isMovie: false,
-            rating:parseFloat(shows[i].imDbRating / 3).toFixed(1),
-            ratingValue: (shows[i].imDbRating / 3).toFixed(1)
+            rating: parseInt(shows[i].imDbRating / 3),
+            ratingValue: parseInt(shows[i].imDbRating / 3)
         });
         await newShow.save();
     }

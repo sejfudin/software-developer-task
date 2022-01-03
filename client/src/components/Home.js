@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMovies } from '../redux/actions/moviesActions';
+import { clearMovies, clearSearchedMovies, getMovies, getSearchedMovies } from '../redux/actions/moviesActions';
 import MessageModal from './MessageModal';
 
 import Movie from './Movie';
@@ -18,7 +18,27 @@ const Home = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleModal = () => {
-        setIsOpen(!isOpen)
+        if (isOpen) {
+            const data = {
+                term: searchTerm,
+                skip: 0,
+                limit: loadMore.limit,
+                isMovie: isMoviesShowed
+            }
+
+            //Clear all movies/shows from redux
+            dispatch(clearMovies());
+
+            //Get first 10 movies/shows
+            dispatch(getMovies(data));
+
+            //If user try to rate a movie during searching repeat search
+            if (searchTerm) {
+                dispatch(clearSearchedMovies())
+                dispatch(getSearchedMovies(data));
+            }
+        }
+        setIsOpen(!isOpen);
     }
 
     useEffect(() => {
@@ -34,29 +54,29 @@ const Home = () => {
     return (
         <div className='container'>
             <MessageModal isOpen={isOpen} toggleModal={toggleModal} />
-            <div className="row">
+            <div className='row'>
                 {
                     searchTerm.length < 3 ? movies.map(movie => {
                         return (
                             <div
-                                className="col-sm-6 col-md-4 col-lg-3"
+                                className='col-sm-6 col-md-4 col-lg-3'
                                 key={movie._id}>
                                 <Movie movie={movie} toggleModal={toggleModal} />
                             </div>
                         )
                     })
                         :
-                        searched.map(movie => {
+                        searched.length ? searched.map(movie => {
                             return (
                                 <div
-                                    className="col-sm-6 col-md-4 col-lg-3"
+                                    className='col-sm-6 col-md-4 col-lg-3'
                                     key={movie._id}>
                                     <Movie movie={movie} toggleModal={toggleModal} />
                                 </div>
                             )
-                        })
+                        }) : <div>No results found!!!</div>
                 }
-                {movies.length < 30 && <ShowMoreButton />}
+                {movies.length > 9 && movies.length < 30 && <ShowMoreButton />}
             </div>
         </div>
     )
