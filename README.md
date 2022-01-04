@@ -13,6 +13,24 @@ This is my solution to the task I received from Mistral.
 - Load more button
 - Log out
 
+Search functionality is the core functionality of this application.<br />
+User can use searching by:
+  - title
+  - crew member
+  - year
+  - rating
+
+in addition to the standard search, the application also recognizes certain phrases:
+  
+  - after year
+  - before year
+  - older than year
+  - younger than year
+  - numberOfStars stars
+  - at least numberOfStars stars
+  - less than numberOfStars stars
+  - more than number of stars stars
+
 # Used Technologies:
 1. React - frontend
 2. NodeJs/Express - backend
