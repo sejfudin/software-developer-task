@@ -20,7 +20,8 @@ const initialState = {
     loadMore: {
         skip: 0,
         limit: 10
-    }
+    },
+    responseSize: null
 };
 
 const moviesReducer = (state = initialState, action) => {
@@ -53,7 +54,7 @@ const moviesReducer = (state = initialState, action) => {
         case SEARCH_MOVIES:
             return {
                 ...state,
-                searchedMovies: [...state.searchedMovies, ...action.payload]
+                searchedMovies: [...state.searchedMovies, ...action.payload],
             };
 
         case INITIAL_SEARCH_MOVIES:

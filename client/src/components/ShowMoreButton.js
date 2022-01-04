@@ -19,7 +19,7 @@ const ShowMoreButton = () => {
 
         //New Skip, Limit is always the same
         let newData = {
-            filter: searchTerm,
+            term: searchTerm,
             skip: newSkip,
             limit: loadMore.limit,
             isMovie: isMoviesShowed

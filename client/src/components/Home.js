@@ -76,7 +76,7 @@ const Home = () => {
                             )
                         }) : <div>No results found!!!</div>
                 }
-                {movies.length > 9 && movies.length < 30 && <ShowMoreButton />}
+                {((movies.length > 9 && movies.length < 30) || (searched.length > 9 && searched.length < 30)) && <ShowMoreButton />}
             </div>
         </div>
     )

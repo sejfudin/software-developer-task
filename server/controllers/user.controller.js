@@ -2,14 +2,14 @@ const User = require('../models/user.model');
 const { OAuth2Client } = require('google-auth-library');
 const jwt = require("jsonwebtoken");
 
-const client = new OAuth2Client("593666384376-ngcoi5gfh139p8jbiidf2kosedh7l1j8.apps.googleusercontent.com");
+const client = new OAuth2Client(process.env.GOOGLE_ID);
 
 //Google user
 const googleLogin = async (req, res, next) => {
-    
+
     const { tokenId } = req.body;
 
-    client.verifyIdToken({ idToken: tokenId, audience: "593666384376-ngcoi5gfh139p8jbiidf2kosedh7l1j8.apps.googleusercontent.com" })
+    client.verifyIdToken({ idToken: tokenId, audience: process.env.GOOGLE_ID })
         .then(response => {
             const { email_verified, name, email } = response.payload;
             if (email_verified) {
@@ -21,7 +21,7 @@ const googleLogin = async (req, res, next) => {
                         })
                     } else {
                         if (user) {
-                            const token = jwt.sign({ _id: user._id }, "moj_secret", { expiresIn: '7d' });
+                            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
                             const { _id, name, email } = user;
                             res.json({
                                 token,
@@ -35,7 +35,7 @@ const googleLogin = async (req, res, next) => {
                                         error: "Something went wrong"
                                     })
                                 }
-                                const token = jwt.sign({ _id: data._id }, "moj_secret", { expiresIn: '7d' });
+                                const token = jwt.sign({ _id: data._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
                                 const { _id, name, email } = newUser;
                                 res.json({
                                     token,

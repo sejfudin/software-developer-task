@@ -6,15 +6,12 @@ const getSearchedMovies = async (req, res, next) => {
 
     const { term, skip, limit, isMovie } = req.body;
 
-    const query = searching.searchingFunction(term, isMovie)
+    const query = searching.searchingFunction(term, isMovie);
 
     try {
         Movie.find(query,
             function (err, docs) {
-                return res.status(200).json({
-                    movies: docs
-
-                })
+                return res.status(200).json({ movies: docs })
             }
         )
             .sort({ ratingValue: -1, _id: 1 })
