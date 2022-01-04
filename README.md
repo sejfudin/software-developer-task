@@ -29,7 +29,7 @@ in addition to the standard search, the application also recognizes certain phra
   - numberOfStars stars
   - at least numberOfStars stars
   - less than numberOfStars stars
-  - more than number of stars stars
+  - more than numberOfStars stars
 
 # Used Technologies:
 1. React - frontend
